@@ -128,6 +128,18 @@ Make sure that our code is clean and functional. -->
                                  check-js-debug,
                                  simpletest"/>
 
+  <target name="code-metrics" depends="init,
+                                 clean,
+                                 lint-php-custom,
+                                 lint-js-custom,
+                                 lint-css-custom,
+                                 check-php-debug,
+                                 check-js-debug,
+                                 phpcs,
+                                 phploc,
+                                 phpmd,
+                                 phpcpd"/>                                 
+
 <!-- ### Analyze code
 
 Perform static analysis of the code to generate statistics, identify potential
