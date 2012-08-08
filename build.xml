@@ -692,7 +692,7 @@ Consequently `coder-review-d6/7` and not `phpcs` is used for the main targets.
       <!-- There is no Phing task for PHP Codesniffer in v2.4.6.
            It's coming for v2.5. Execute while we wait. -->            
       <exec command="phpcs --report=checkstyle
-                    --report-file=${project.logdir}/checkstyle-codesniffer.xml
+                    --report-file=${project.logdir}/${custom-directory}-checkstyle-codesniffer.xml
                     --standard=${project.toolsdir}/drupalcs/Drupal/ruleset.xml
                     --extensions=php,inc,module
                     --ignore=*/contrib/*,*/*.features.*,*/*.field_group.inc,*/*.layout.*,*/*.pages_default.*,*/*.panels_default.*,*/*strongarm.inc,*/*.views_default.inc
