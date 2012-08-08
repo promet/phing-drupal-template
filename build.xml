@@ -682,9 +682,9 @@ Consequently `coder-review-d6/7` and not `phpcs` is used for the main targets.
     <php expression="preg_replace('/(\s+|\s*,\s*)/', ',', '${project.code.custom}')"
          returnProperty="project.code.custom"/>          
     <!-- loop through code custom directories, and call sub-phcs task with setted param -->
-    <foreach list="'${project.code.custom}" param="custom-directory" target="sub-phpcs" />
+    <foreach list="${project.code.custom}" param="custom-directory" target="sub-phpcs" />
     </target>
-    <target name="sub-phpcs">
+    <target name="sub-phpcs">    
       <exec command="find ${project.code.dir} -type d -iname '${custom-directory}'"  escape="true" outputProperty="custom-directory-location" checkreturn="true"/>
       <if>
          <not><equals arg1="${custom-directory-location}" arg2="" /></not>
