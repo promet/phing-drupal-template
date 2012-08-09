@@ -1125,7 +1125,8 @@ called from `init` target. -->
     <delete dir="${project.coveragedir}"/>
     <delete dir="${project.logdir}"/>
     <delete dir="${project.testdir}"/>
-    <delete dir="${project.unitdir}"/>    
+    <delete dir="${project.unitdir}"/>
+    <dleete dir="${project.seleniumdir}"/>    
     <!-- Verbose. We need to make sure any database is deleted. Reinstalling
          the site with an existing database causes the build to fail. -->
     <delete file="${project.drupal.dir}/database.sqlite" verbose="true" />
@@ -1142,6 +1143,7 @@ called from `init` target. -->
     <mkdir dir="${project.logdir}"/>
     <mkdir dir="${project.testdir}"/>
     <mkdir dir="${project.unitdir}"/>
+    <mkdir dir="${project.seleniumdir}"/>
 
     <!-- Set property to prevent target from being executed multiple times -->
     <property name="project.cleaned" value="true"/>
