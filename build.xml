@@ -928,6 +928,8 @@ called from `init` target. -->
               value="${project.builddir}/logs" />
     <property name="project.testdir"
               value="${project.builddir}/tests" />
+    <property name="project.unitdir"
+              value="${project.builddir}/unit" />              
   </target>
 
 <!-- ### Drush Make
