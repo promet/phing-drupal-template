@@ -929,7 +929,9 @@ called from `init` target. -->
     <property name="project.testdir"
               value="${project.builddir}/tests" />
     <property name="project.unitdir"
-              value="${project.builddir}/unit" />              
+              value="${project.builddir}/unit" />
+    <property name="project.seleniumdir"
+              value="${project.builddir}/selenium" />              
   </target>
 
 <!-- ### Drush Make
