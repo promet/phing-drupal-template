@@ -931,7 +931,9 @@ called from `init` target. -->
     <property name="project.unitdir"
               value="${project.builddir}/unit" />
     <property name="project.seleniumdir"
-              value="${project.builddir}/selenium" />              
+              value="${project.builddir}/selenium" />
+    <property name="project.toolsdir.upal"
+              value="${project.toolsdir}/upal" />         
   </target>
 
 <!-- ### Drush Make
