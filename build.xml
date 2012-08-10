@@ -1413,4 +1413,39 @@ http://www.phing.info/trac/ticket/437
                    todir="${project.unitdir}"/>
   </target>
 
+<!-- ### Execute Execute selenium test using phpunit
+-->
+    <target name="selenium"
+            description="Execute selenium test using phpunit"
+            depends="init">
+    <php expression="preg_replace('/(\s+|\s*,\s*)/', ',', '${project.code.custom}')"
+         returnProperty="project.code.custom"/>          
+    <!-- loop through code custom directories, and call sub-selenium task with setted param -->
+    <foreach list="${project.code.custom}" param="custom-directory" target="sub-selenium" />
+    </target>
+    <target name="sub-selenium">    
+      <exec command="find ${project.code.dir} -type d -iname '${custom-directory}'"  escape="true" outputProperty="selenium-custom-directory-location" checkreturn="true"/>
+      <if>
+         <not><equals arg1="${selenium-custom-directory-location}" arg2="" /></not>
+         <then><phingcall target="call-selenium-report" /></then>
+      </if>
+    </target>
+
+  <target name="call-selenium-report" depends="init">
+    <phpunit>
+      <batchtest>
+        <fileset dir=".">
+          <include name="${selenium-custom-directory-location}/*${project.selenium.filepattern}"/>
+        </fileset>
+      </batchtest>
+
+      <formatter type="xml" todir="${project.seleniumdir}" outfile="logfile.xml"/>
+    </phpunit>
+
+    <phpunitreport infile="${project.seleniumdir}/logfile.xml"
+                   styledir="/usr/share/php/data/phing/etc"
+                   format="frames"
+                   todir="${project.seleniumdir}"/>
+  </target>
+  
 </project>
