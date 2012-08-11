@@ -1401,7 +1401,7 @@ http://www.phing.info/trac/ticket/437
       </foreach>
   </target>    
   <target name="sub-unit-report">
-      <exec command="phpunit --bootstrap ${project.toolsdir.upal}/${project.phpunit.bootstrap} --configuration ${project.toolsdir.upal}/${project.phpunit.configuration} --log-junit logfile.xml ${abs-fname}" dir="${project.basedir}" passthru="true"/>    
+      <exec command="phpunit --bootstrap ${project.toolsdir.upal}/${project.phpunit.bootstrap} --configuration ${project.phpunit.configuration} --log-junit logfile.xml ${abs-fname}" dir="${project.basedir}" passthru="true"/>    
   </target>
   <target name="move-unitlog" depends="init,call-unit-report">
     <move file="logfile.xml" tofile="${project.unitdir}/logfile.xml" overwrite="true"/>
