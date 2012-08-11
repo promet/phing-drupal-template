@@ -1128,7 +1128,7 @@ called from `init` target. -->
     <delete dir="${project.logdir}"/>
     <delete dir="${project.testdir}"/>
     <delete dir="${project.unitdir}"/>
-    <dleete dir="${project.seleniumdir}"/>    
+    <delete dir="${project.seleniumdir}"/>    
     <!-- Verbose. We need to make sure any database is deleted. Reinstalling
          the site with an existing database causes the build to fail. -->
     <delete file="${project.drupal.dir}/database.sqlite" verbose="true" />
