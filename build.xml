@@ -1401,16 +1401,12 @@ http://www.phing.info/trac/ticket/437
       </foreach>
   </target>    
   <target name="sub-unit-report">
-      <exec command="phpunit --bootstrap ${project.toolsdir.upal}/${project.phpunit.bootstrap} --configuration ${project.phpunit.configuration} --log-junit logfile.xml ${abs-fname}" dir="${project.basedir}" passthru="true"/>    
+      <exec command="basename ${abs-fname}" outputProperty="phpunit-filename"/>
+      <exec command="phpunit --bootstrap ${project.toolsdir.upal}/${project.phpunit.bootstrap} --configuration ${project.phpunit.configuration} --log-junit ${phpunit-filename}-logfile.xml ${abs-fname}" dir="${project.basedir}" passthru="true"/>
+      <phingcall target="move-unitlog" />  
   </target>
-  <target name="move-unitlog" depends="init,call-unit-report">
-    <move file="logfile.xml" tofile="${project.unitdir}/logfile.xml" overwrite="true"/>
-  </target>
-  <target name="unit-report" depends="init,call-unit-report,move-unitlog">
-    <phpunitreport infile="${project.unitdir}/logfile.xml"
-                   styledir="/usr/share/php/data/phing/etc"
-                   format="frames"
-                   todir="${project.unitdir}"/>
+  <target name="move-unitlog">
+    <move file="${phpunit-filename}-logfile.xml" tofile="${project.unitdir}/${phpunit-filename}-logfile.xml" overwrite="true"/>
   </target>
 
 <!-- ### Execute Execute selenium test using phpunit
