@@ -1373,12 +1373,7 @@ http://www.phing.info/trac/ticket/437
     <target name="phpunit"
             description="Execute unit test using phpunit with bootstrap (upal)"
             depends="init">
-      <!-- Clone a repository Drupal-PHPunit Integration Library upal, defined at build.default.properties . -->
-      <phingcall target="setup-git-repo">        
-        <property name="repo.revision" value="${phpunit.upal.repository.revision}"/>
-        <property name="repo.url" value="${phpunit.upal.repository.url}" />
-        <property name="repo.dir" value="${project.toolsdir.upal}" />
-      </phingcall>
+      <mkdir dir="${project.unitdir}"/> 
     <php expression="preg_replace('/(\s+|\s*,\s*)/', ',', '${project.code.custom}')"
          returnProperty="project.code.custom"/>          
     <!-- loop through code custom directories, and call sub-phcs task with setted param -->
@@ -1388,12 +1383,28 @@ http://www.phing.info/trac/ticket/437
       <exec command="find ${project.code.dir} -type d -iname '${custom-directory}'"  escape="true" outputProperty="phpunit-custom-directory-location" checkreturn="true"/>
       <if>
          <not><equals arg1="${phpunit-custom-directory-location}" arg2="" /></not>
-         <then><phingcall target="call-unit-report" /></then>
+         <then>
+              <if>
+                 <isset property="phpunit.upal.repository.url"/>
+                 <then>
+                   <!-- Clone a repository Drupal-PHPunit Integration Library upal, defined at build.default.properties . -->
+                   <phingcall target="setup-git-repo">        
+                   <property name="repo.revision" value="${phpunit.upal.repository.revision}"/>
+                   <property name="repo.url" value="${phpunit.upal.repository.url}" />
+                   <property name="repo.dir" value="${project.toolsdir.upal}" />
+                   </phingcall> 
+                    <phingcall target="call-unit-report-with-bootstrap" />
+                 </then>
+                 <else>
+                    <phingcall target="call-unit-report-without-bootstrap" />
+                 </else>
+              </if>
+         </then>
       </if>
     </target>
 
 
-  <target name="call-unit-report">
+  <target name="call-unit-report-with-bootstrap">
       <foreach param="fname" absparam="abs-fname" target="sub-unit-report">
           <fileset dir=".">
               <include name="${phpunit-custom-directory-location}/*${project.phpunit.filepattern}" />
@@ -1408,12 +1419,30 @@ http://www.phing.info/trac/ticket/437
   <target name="move-unitlog">
     <move file="${phpunit-filename}-logfile.xml" tofile="${project.unitdir}/${phpunit-filename}-logfile.xml" overwrite="true"/>
   </target>
+  <target name="call-unit-report-without-bootstrap">
+    <phpunit>
+      <batchtest>
+        <fileset dir=".">
+          <include name="${phpunit-custom-directory-location}/*${project.phpunit.filepattern}" />
+        </fileset>
+      </batchtest>
+
+      <formatter type="xml" todir="${project.unitdir}" outfile="logfile.xml"/>
+    </phpunit>
+
+    <phpunitreport infile="${project.unitdir}/logfile.xml"
+                   styledir="/usr/share/php/data/phing/etc"
+                   format="frames"
+                   todir="${project.unitdir}"/>
+  </target>  
+
 
 <!-- ### Execute Execute selenium test using phpunit
 -->
     <target name="selenium"
             description="Execute selenium test using phpunit"
             depends="init">
+    <mkdir dir="${project.seleniumdir}"/>
     <php expression="preg_replace('/(\s+|\s*,\s*)/', ',', '${project.code.custom}')"
          returnProperty="project.code.custom"/>          
     <!-- loop through code custom directories, and call sub-selenium task with setted param -->
