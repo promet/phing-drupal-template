@@ -1443,5 +1443,5 @@ http://www.phing.info/trac/ticket/437
                    format="frames"
                    todir="${project.seleniumdir}"/>
   </target>
-  
+  <target name="user-acceptance" depends="phpunit, selenium" />
 </project>
